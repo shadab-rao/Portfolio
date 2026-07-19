@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const adminModel = require("../models/admin.model");
 const jwt = require("jsonwebtoken");
+const { successResponse } = require("../utils/response");
 
 const createAdmin = async (req, res) => {
   const { name, email, password } = req.body;
@@ -15,8 +16,7 @@ const createAdmin = async (req, res) => {
     expiresIn: "3d",
   });
   res.cookie("token", token);
-  res.status(201).json({
-    message: "Admin created successfully",
+  return successResponse(res, 201, "Admin created successfully", {
     token,
     admin,
   });
@@ -45,8 +45,7 @@ const loginAdmin = async (req, res) => {
     expiresIn: "3d",
   });
   res.cookie("token", token);
-  res.status(200).json({
-    message: "Admin logged in successfully",
+  return successResponse(res, 201, "Admin logged in successfully", {
     token,
     admin,
   });
@@ -54,7 +53,7 @@ const loginAdmin = async (req, res) => {
 
 const logOutAdmin = async (req, res) => {
   res.clearCookie("token");
-  res.status(200).json({ message: "Admin logged out successfully" });
+  return successResponse(res, 200, "Admin logged out successfully");
 };
 
 const getAdmin = async (req, res) => {
@@ -67,10 +66,7 @@ const getAdmin = async (req, res) => {
       });
     }
 
-    return res.status(200).json({
-      message: "Admin fetched successfully",
-      admin,
-    });
+    return successResponse(res, 200, "Admin fetched successfully", admin);
   } catch (error) {
     return res.status(500).json({
       message: error.message,

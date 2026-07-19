@@ -1,5 +1,6 @@
 const skillModel = require("../models/skill.model");
 const pagination = require("../utils/pagination");
+const { successResponse } = require("../utils/response");
 
 const createSkill = async (req, res) => {
   try {
@@ -24,7 +25,7 @@ const createSkill = async (req, res) => {
       proficiency,
     });
 
-    res.status(201).json({ message: "Skill created successfully", skill });
+    return successResponse(res, 201, "Skill created successfully", skill);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
@@ -37,16 +38,9 @@ const getAllSkills = async (req, res) => {
     const limit = Number(req.query.limit) || 10;
     const search = req.query.search || "";
 
-    const result = await pagination(
-      skillModel,
-      page,
-      limit,
-      search,
-      "name"
-    );
+    const result = await pagination(skillModel, page, limit, search, "name");
 
-    res.status(200).json({
-      message: "Skills fetched successfully",
+    return successResponse(res, 200, "Skills fetched successfully", {
       skills: result.data,
       pagination: result.pagination,
     });
@@ -81,15 +75,12 @@ const updateSkills = async (req, res) => {
     new: true,
   });
 
-  res.status(200).json({
-    message: "Skill updated successfully",
-    skill,
-  });
+  return successResponse(res, 200, "Skill updated successfully", skill);
 };
 
 const deleteSkill = async (req, res) => {
   const skill = await skillModel.findByIdAndDelete(req.params.id);
-  res.status(200).json({ message: "Skill deleted successfully", skill });
+  return successResponse(res, 200, "Skill deleted successfully", skill);
 };
 
 module.exports = { createSkill, getAllSkills, updateSkills, deleteSkill };

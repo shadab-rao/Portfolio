@@ -1,5 +1,6 @@
 const projectSchema = require("../models/project.model");
 const pagination = require("../utils/pagination");
+const { successResponse } = require("../utils/response");
 
 const createproject = async (req, res) => {
   const { title, description, technologies, githubLink, liveLink, link } =
@@ -18,7 +19,7 @@ const createproject = async (req, res) => {
     liveLink,
     link,
   });
-  res.status(201).json({ message: "Project created successfully", project });
+  return successResponse(res, 201, "Project created successfully", project);
 };
 
 const updateProject = async (req, res) => {
@@ -37,7 +38,7 @@ const updateProject = async (req, res) => {
     },
     { new: true },
   );
-  res.status(200).json({ message: "Project updated successfully", project });
+  return successResponse(res, 200, "Project updated successfully", project);
 };
 
 const getAllProject = async (req, res) => {
@@ -54,8 +55,7 @@ const getAllProject = async (req, res) => {
       "title", // Search by project title
     );
 
-    res.status(200).json({
-      message: "Projects fetched successfully",
+    return successResponse(res, 200, "Projects fetched successfully", {
       project: result.data,
       pagination: result.pagination,
     });
@@ -72,7 +72,7 @@ const projectById = async (req, res) => {
   if (!project) {
     return res.status(404).json({ message: "Project not found" });
   }
-  res.status(201).json({ message: "Project fetched successfully", project });
+  return successResponse(res, 200, "Project fetched successfully", project);
 };
 
 const deleteProject = async (req, res) => {
@@ -80,7 +80,7 @@ const deleteProject = async (req, res) => {
   if (!project) {
     return res.status(404).json({ message: "Project not found" });
   }
-  res.status(200).json({ message: "Project deleted successfully" });
+  return successResponse(res, 200, "Project deleted successfully");
 };
 
 module.exports = {

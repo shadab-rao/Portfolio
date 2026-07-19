@@ -1,5 +1,6 @@
 const experienceModel = require("../models/experience.model");
 const pagination = require("../utils/pagination");
+const { successResponse } = require("../utils/response");
 const createExperience = async (req, res) => {
   const { company, role, location, startDate, endDate, description } = req.body;
   if (
@@ -20,9 +21,12 @@ const createExperience = async (req, res) => {
     endDate,
     description,
   });
-  res
-    .status(201)
-    .json({ message: "Experience created successfully", experience });
+  return successResponse(
+    res,
+    201,
+    "Experience created successfully",
+    experience,
+  );
 };
 
 const getAllExperience = async (req, res) => {
@@ -36,11 +40,10 @@ const getAllExperience = async (req, res) => {
       page,
       limit,
       search,
-      "company" // Change to "position" if you want to search by position
+      "company", // Change to "position" if you want to search by position
     );
 
-    res.status(200).json({
-      message: "Experience fetched successfully",
+    return successResponse(res, 200, "Experience fetched successfully", {
       experience: result.data,
       pagination: result.pagination,
     });
@@ -57,9 +60,12 @@ const experienceById = async (req, res) => {
   if (!experience) {
     return res.status(404).json({ message: "Experience not found" });
   }
-  res
-    .status(201)
-    .json({ message: "Experience fetched successfully", experience });
+  return successResponse(
+    res,
+    200,
+    "Experience fetched successfully",
+    experience,
+  );
 };
 
 const updateExperience = async (req, res) => {
@@ -69,9 +75,12 @@ const updateExperience = async (req, res) => {
     { company, role, location, startDate, endDate, description },
     { new: true },
   );
-  res
-    .status(200)
-    .json({ message: "Experience updated successfully", experience });
+  return successResponse(
+    res,
+    200,
+    "Experience updated successfully",
+    experience,
+  );
 };
 
 const deleteExperience = async (req, res) => {
@@ -79,7 +88,7 @@ const deleteExperience = async (req, res) => {
   if (!experience) {
     return res.status(404).json({ message: "Experience not found" });
   }
-  res.status(200).json({ message: "Experience deleted successfully" });
+  return successResponse(res, 200, "Experience deleted successfully");
 };
 
 module.exports = {

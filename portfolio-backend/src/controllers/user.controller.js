@@ -1,4 +1,5 @@
 const userModel = require("../models/user.model");
+const { successResponse } = require("../utils/response");
 
 const createProfile = async (req, res) => {
   const {
@@ -37,14 +38,12 @@ const createProfile = async (req, res) => {
     location,
   });
 
-  res.status(201).json({ message: "Profile created successfully", user });
+  return successResponse(res, 201, "Profile created successfully", user);
 };
 
 const getProfile = async (req, res) => {
   const profile = await userModel.findOne();
-  res
-    .status(201)
-    .json({ message: "Profile created successfully", data: profile });
+  return successResponse(res, 200, "Profile fetched successfully", profile);
 };
 
 const updateProfile = async (req, res) => {
@@ -64,7 +63,7 @@ const updateProfile = async (req, res) => {
     location,
   } = req.body;
 
-  if (!name || !designation || !email  || !phone) {
+  if (!name || !designation || !email || !phone) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -88,7 +87,7 @@ const updateProfile = async (req, res) => {
     { new: true, upsert: true },
   );
 
-  res.status(201).json({ message: "Profile updated successfully", user });
+  return successResponse(res, 200, "Profile updated successfully", user);
 };
 
 module.exports = { createProfile, getProfile, updateProfile };
