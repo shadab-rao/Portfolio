@@ -1,4 +1,5 @@
 const educationModel = require("../models/education.model");
+const pagination = require("../utils/pagination");
 
 const createEducation = async(req,res)=>{
 
@@ -18,14 +19,31 @@ const updateEducation = async(req,res)=>{
     res.status(200).json({message:"Education updated successfully",education});
 }
 
-const getAllEducation = async(req,res)=>{
+const getAllEducation = async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const search = req.query.search || "";
 
-    const education = await educationModel.find();
-    if(!education){
-        return res.status(404).json({message:"Education not found"});
-    }
-    res.status(201).json({message:"Education fetched successfully",education});
-}
+    const result = await pagination(
+      educationModel,
+      page,
+      limit,
+      search,
+      "degree"
+    );
+
+    res.status(200).json({
+      message: "Education fetched successfully",
+      education: result.data,
+      pagination: result.pagination,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
 
 const educationById = async(req,res)=>{
 
