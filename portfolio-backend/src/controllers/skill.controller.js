@@ -83,4 +83,9 @@ const deleteSkill = async (req, res) => {
   return successResponse(res, 200, "Skill deleted successfully", skill);
 };
 
-module.exports = { createSkill, getAllSkills, updateSkills, deleteSkill };
+const getSkillById = async (req, res) => {
+  const skill = await skillModel.findById(req.params.id);
+  return successResponse(res, 200, "Skill fetched successfully", skill);
+};
+
+module.exports = { createSkill, getAllSkills, updateSkills, deleteSkill, getSkillById };
