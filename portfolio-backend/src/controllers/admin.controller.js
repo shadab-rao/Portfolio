@@ -15,7 +15,11 @@ const createAdmin = async (req, res) => {
     expiresIn: "3d",
   });
   res.cookie("token", token);
-  res.status(201).json({ message: "Admin created successfully", admin }, token);
+  res.status(201).json({
+    message: "Admin created successfully",
+    token,
+    admin,
+  });
 };
 
 const loginAdmin = async (req, res) => {
@@ -41,9 +45,11 @@ const loginAdmin = async (req, res) => {
     expiresIn: "3d",
   });
   res.cookie("token", token);
-  res
-    .status(200)
-    .json({ message: "Admin logged in successfully", admin }, token);
+  res.status(200).json({
+    message: "Admin logged in successfully",
+    token,
+    admin,
+  });
 };
 
 const logOutAdmin = async (req, res) => {
@@ -72,7 +78,4 @@ const getAdmin = async (req, res) => {
   }
 };
 
-
-
-
-module.exports = { createAdmin, loginAdmin, logOutAdmin,getAdmin };
+module.exports = { createAdmin, loginAdmin, logOutAdmin, getAdmin };
