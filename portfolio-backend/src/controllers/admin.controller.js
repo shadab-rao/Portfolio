@@ -72,4 +72,7 @@ const getAdmin = async (req, res) => {
   }
 };
 
+
+
+
 module.exports = { createAdmin, loginAdmin, logOutAdmin,getAdmin };
