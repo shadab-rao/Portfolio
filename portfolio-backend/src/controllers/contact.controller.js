@@ -12,10 +12,30 @@ const createContact = async (req, res) => {
 
 const getAllMessage = async (req, res) => {
   try {
-    const messages = await contactModel.find();
-    return successResponse(res, 200, "Messages fetched successfully", messages);
+    const page = Number(req.query.page) || 1;
+
+    const limit = Number(req.query.limit) || 10;
+
+    const search = req.query.search || "";
+
+    const result = await pagination(
+      contactModel,
+      page,
+      limit,
+      search,
+      "name", // field on which search will work
+    );
+
+    return successResponse(res, 200, "Messages fetched successfully", {
+      contacts: result.data,
+      pagination: result.pagination,
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.log(error);
+
+    res.status(500).json({
+      message: "Internal server error",
+    });
   }
 };
 
