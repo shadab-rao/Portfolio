@@ -1,4 +1,5 @@
 const contactModel = require("../models/contact.model");
+const pagination = require("../utils/pagination");
 const { successResponse } = require("../utils/response");
 
 const createContact = async (req, res) => {
