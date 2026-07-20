@@ -3,42 +3,112 @@ const pagination = require("../utils/pagination");
 const { successResponse } = require("../utils/response");
 
 const createproject = async (req, res) => {
-  const { title, description, technologies, githubLink, liveLink, link } =
-    req.body;
-
-  if (!title || !description || !technologies || !githubLink || !liveLink) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  const project = await projectSchema.create({
-    title,
-    description,
-    technologies,
-    image: req.file.filename,
-    githubLink,
-    liveLink,
-    link,
-  });
-  return successResponse(res, 201, "Project created successfully", project);
-};
-
-const updateProject = async (req, res) => {
-  const { title, description, technologies, githubLink, liveLink, link } =
-    req.body;
-  const project = await projectSchema.findOneAndUpdate(
-    { _id: req.params.id },
-    {
+  try {
+    const {
       title,
       description,
       technologies,
+      githubLink,
+      liveLink,
+      link,
+      order,
+    } = req.body;
+
+    if (
+      !title ||
+      !description ||
+      !technologies
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Project image is required",
+      });
+    }
+
+    const project = await projectSchema.create({
+      title,
+      description,
+      technologies: technologies
+        .split(",")
+        .map((item) => item.trim()),
       image: req.file.filename,
       githubLink,
       liveLink,
       link,
-    },
-    { new: true },
-  );
-  return successResponse(res, 200, "Project updated successfully", project);
+      order,
+    });
+
+    return successResponse(
+      res,
+      201,
+      "Project created successfully",
+      project
+    );
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const updateProject = async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      technologies,
+      githubLink,
+      liveLink,
+      link,
+      order,
+    } = req.body;
+
+    const updateData = {
+      title,
+      description,
+      technologies: technologies
+        ? technologies.split(",").map((item) => item.trim())
+        : [],
+      githubLink,
+      liveLink,
+      link,
+      order,
+    };
+
+    // Update image only if a new image is uploaded
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
+    const project = await projectSchema.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    return successResponse(
+      res,
+      200,
+      "Project updated successfully",
+      project
+    );
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 const getAllProject = async (req, res) => {
