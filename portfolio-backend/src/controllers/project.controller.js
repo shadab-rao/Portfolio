@@ -14,11 +14,7 @@ const createproject = async (req, res) => {
       order,
     } = req.body;
 
-    if (
-      !title ||
-      !description ||
-      !technologies
-    ) {
+    if (!title || !description || !technologies) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -35,9 +31,7 @@ const createproject = async (req, res) => {
     const project = await projectSchema.create({
       title,
       description,
-      technologies: technologies
-        .split(",")
-        .map((item) => item.trim()),
+      technologies: technologies.split(",").map((item) => item.trim()),
       image: req.file.filename,
       githubLink,
       liveLink,
@@ -45,12 +39,7 @@ const createproject = async (req, res) => {
       order,
     });
 
-    return successResponse(
-      res,
-      201,
-      "Project created successfully",
-      project
-    );
+    return successResponse(res, 201, "Project created successfully", project);
   } catch (error) {
     console.log(error);
 
@@ -93,15 +82,10 @@ const updateProject = async (req, res) => {
     const project = await projectSchema.findByIdAndUpdate(
       req.params.id,
       updateData,
-      { new: true }
+      { new: true },
     );
 
-    return successResponse(
-      res,
-      200,
-      "Project updated successfully",
-      project
-    );
+    return successResponse(res, 200, "Project updated successfully", project);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -153,10 +137,21 @@ const deleteProject = async (req, res) => {
   return successResponse(res, 200, "Project deleted successfully");
 };
 
+const projectStatus = async (req, res) => {
+  const project = await projectSchema.findById(req.params.id);
+  if (!project) {
+    return res.status(404).json({ message: "Project not found" });
+  }
+  project.isActive = !project.isActive;
+  await project.save();
+  return successResponse(res, 200, "Project status updated successfully");
+};
+
 module.exports = {
   createproject,
   updateProject,
   getAllProject,
   projectById,
   deleteProject,
+  projectStatus,
 };
