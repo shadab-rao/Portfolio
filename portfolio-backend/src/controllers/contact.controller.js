@@ -1,13 +1,31 @@
 const contactModel = require("../models/contact.model");
 const pagination = require("../utils/pagination");
 const { successResponse } = require("../utils/response");
+const sendMail  = require("../utils/sendMail");
 
 const createContact = async (req, res) => {
   try {
-    const contact = await contactModel.create(req.body);
+    const { name, email, message } = req.body;
+
+    const contact = await contactModel.create({
+      name,
+      email,
+      message,
+    });
+
+    await sendMail({
+      name,
+      email,
+      message,
+    });
+
     return successResponse(res, 201, "Message sent successfully", contact);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.log(error);
+
+    res.status(400).json({
+      error: error.message,
+    });
   }
 };
 
