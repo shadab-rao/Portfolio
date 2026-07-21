@@ -12,39 +12,27 @@ const dashboardRoutes = require("./routes/dashboard.route");
 
 const app = express();
 
-
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://your-frontend-domain.com"
+      "https://portfolio-kml0jwmjm-shadabraos-projects.vercel.app",
     ],
-    methods: [
-      "GET",
-      "POST",
-      "PUT",
-      "PATCH",
-      "DELETE",
-      "OPTIONS"
-    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
       "x-auth-token-user",
       "x-auth-language",
-      "x-auth-user-type"
+      "x-auth-user-type",
     ],
-    credentials: true
-  })
+    credentials: true,
+  }),
 );
-
-
-
 
 app.use(express.json());
 
 app.use("/uploads", express.static("uploads"));
-
 
 app.use("/api/skill", skillRouter);
 app.use("/api/profile", userRouter);
@@ -54,6 +42,5 @@ app.use("/api/education", educationRouter);
 app.use("/api/contact", contactRouter);
 app.use("/api/admin", adminAuthRouter);
 app.use("/api/dashboard", dashboardRoutes);
-
 
 module.exports = app;
