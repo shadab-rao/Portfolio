@@ -1,7 +1,8 @@
 import Swal from "sweetalert2";
 import httpServise from "./http.service.js";
 
-let baseApi = import.meta.env.VITE_APIENDPOINT;
+let baseApi = "https://portfolio-backend-30wi.onrender.com";
+
 console.log(baseApi);
 
 export async function adminLogin(formData) {
