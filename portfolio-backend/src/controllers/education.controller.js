@@ -3,7 +3,7 @@ const pagination = require("../utils/pagination");
 const { successResponse } = require("../utils/response");
 
 const createEducation = async (req, res) => {
-  const { degree, institution, startDate, endDate } = req.body;
+  const { degree, institution, startDate, endDate, description, location } = req.body;
 
   if (!degree || !institution || !startDate || !endDate) {
     return res.status(400).json({ message: "All fields are required" });
@@ -13,15 +13,17 @@ const createEducation = async (req, res) => {
     institution,
     startDate,
     endDate,
+    description,
+    location,
   });
   return successResponse(res, 201, "Education created successfully", education);
 };
 
 const updateEducation = async (req, res) => {
-  const { degree, institution, startDate, endDate, description } = req.body;
+  const { degree, institution, startDate, endDate, description, location } = req.body;
   const education = await educationModel.findOneAndUpdate(
     { _id: req.params.id },
-    { degree, institution, startDate, endDate, description },
+    { degree, institution, startDate, endDate, description, location },
     { new: true },
   );
   return successResponse(res, 200, "Education updated successfully", education);

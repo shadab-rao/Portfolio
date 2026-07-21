@@ -23,6 +23,10 @@ const educationSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
+    location: {
+        type: String,
+        trim: true,
+    },
 });
 
 module.exports = mongoose.model("Education", educationSchema);
