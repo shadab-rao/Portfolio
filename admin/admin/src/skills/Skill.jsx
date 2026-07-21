@@ -121,7 +121,7 @@ const Skill = () => {
                               <td>
                                 <div className="logo_table">
                                   <img
-                                     src={`https://portfolio-backend-30wi.onrender.com/uploads/${banner.icon}`}
+                                     src={banner?.icon}
                                     alt={banner?.name}
                                     style={{
                                       width: "80px",

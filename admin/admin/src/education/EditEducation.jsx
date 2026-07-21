@@ -28,6 +28,8 @@ const EditEducation = () => {
 
       setValue("degree", education.degree);
       setValue("institution", education.institution);
+      setValue("description", education.description);
+      setValue("location", education.location);
 
       setValue(
         "startDate",
@@ -110,6 +112,28 @@ const EditEducation = () => {
                     })}
                   />
                 </div>
+
+                <div className="form-group col-md-12 mb-3">
+                  <label>Description</label>
+
+                  <textarea
+                    className="form-control"
+                    {...register("description", {
+                      required: true,
+                    })}
+                  ></textarea>
+                </div>
+                <div className="form-group col-md-6 mb-3">
+                  <label>Location</label>
+
+                  <input
+                    className="form-control"
+                    {...register("location", {
+                      required: true,
+                    })}
+                  />
+                </div>
+
 
                 <div className="form-group col-md-6 mb-3">
                   <label>Start Date</label>

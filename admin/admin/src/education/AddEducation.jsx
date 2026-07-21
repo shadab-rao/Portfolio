@@ -68,6 +68,13 @@ const AddEducation = () => {
                     {...register("institution", { required: true })}
                   />
                 </div>
+                <div className="form-group col-md-6 mb-3">
+                  Location{" "}
+                  <input
+                    className="form-control"
+                    {...register("location", { required: true })}
+                  />
+                </div>
 
                 <div className="form-group col-md-6 mb-3">
                   <label>Start Date</label>
@@ -88,16 +95,12 @@ const AddEducation = () => {
                 </div>
 
                 <div className="form-group col-md-12 text-center mt-4">
-                  <button
-                    className="comman_btn px-5"
-                    disabled={loading}
-                  >
+                  <button className="comman_btn px-5" disabled={loading}>
                     {loading ? "Saving..." : "Save"}
                   </button>
                 </div>
               </form>
             </div>
-
           </div>
         </div>
       </div>
