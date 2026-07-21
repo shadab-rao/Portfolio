@@ -1,60 +1,48 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 const sendMail = async ({ name, email, message, subject }) => {
+
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
 
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
-      },
+    const data = await resend.emails.send({
 
-      family: 4,
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+      from: "Portfolio <onboarding@resend.dev>",
 
-    await transporter.sendMail({
-      from: process.env.EMAIL,
       to: process.env.EMAIL,
 
-      // Email subject
+      reply_to: email,
+
       subject: `Portfolio Contact: ${subject}`,
 
       html: `
         <h3>New Portfolio Contact Message</h3>
 
-        <p>
-          <b>Subject:</b> ${subject}
-        </p>
+        <p><b>Subject:</b> ${subject}</p>
 
-        <p>
-          <b>Name:</b> ${name}
-        </p>
+        <p><b>Name:</b> ${name}</p>
 
-        <p>
-          <b>Email:</b> ${email}
-        </p>
+        <p><b>Email:</b> ${email}</p>
 
-        <p>
-          <b>Message:</b>
-        </p>
+        <p><b>Message:</b></p>
 
-        <p>
-          ${message}
-        </p>
+        <p>${message}</p>
       `,
     });
 
-    console.log("Mail sent successfully");
-  } catch (error) {
-    console.log(error);
+
+    console.log("Mail sent successfully", data);
+
+  } catch(error){
+
+    console.log("Mail Error:", error);
+
     throw error;
   }
+
 };
+
 
 module.exports = sendMail;
