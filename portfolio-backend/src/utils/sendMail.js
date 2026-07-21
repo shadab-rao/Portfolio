@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const sendMail = async (name, email, message) => {
+const sendMail = async ({ name, email, message, subject }) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -10,22 +10,39 @@ const sendMail = async (name, email, message) => {
       },
     });
 
+
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: `New Portfolio Contact From ${name}`,
+
+      // Email subject
+      subject: `Portfolio Contact: ${subject}`,
+
       html: `
-        <h3>New Contact Message</h3>
+        <h3>New Portfolio Contact Message</h3>
 
-        <p><b>Name:</b> ${name}</p>
+        <p>
+          <b>Subject:</b> ${subject}
+        </p>
 
-        <p><b>Email:</b> ${email}</p>
+        <p>
+          <b>Name:</b> ${name}
+        </p>
 
-        <p><b>Message:</b></p>
+        <p>
+          <b>Email:</b> ${email}
+        </p>
 
-        <p>${message}</p>
+        <p>
+          <b>Message:</b>
+        </p>
+
+        <p>
+          ${message}
+        </p>
       `,
     });
+
 
     console.log("Mail sent successfully");
 

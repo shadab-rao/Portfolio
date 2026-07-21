@@ -5,18 +5,20 @@ const sendMail  = require("../utils/sendMail");
 
 const createContact = async (req, res) => {
   try {
-    const { name, email, message } = req.body;
+    const { name, email, message,subject} = req.body;
 
     const contact = await contactModel.create({
       name,
       email,
       message,
+      subject
     });
 
     await sendMail({
       name,
       email,
       message,
+      subject
     });
 
     return successResponse(res, 201, "Message sent successfully", contact);
