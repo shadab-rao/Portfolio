@@ -2,19 +2,12 @@ const nodemailer = require("nodemailer");
 
 const sendMail = async ({ name, email, message, subject }) => {
   try {
-
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-
+      service: "gmail",
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD,
       },
-
-      connectionTimeout: 10000,
-      socketTimeout: 10000,
     });
 
 
@@ -22,24 +15,38 @@ const sendMail = async ({ name, email, message, subject }) => {
       from: process.env.EMAIL,
       to: process.env.EMAIL,
 
+      // Email subject
       subject: `Portfolio Contact: ${subject}`,
 
       html: `
-        <h3>New Portfolio Contact</h3>
+        <h3>New Portfolio Contact Message</h3>
 
-        <p><b>Subject:</b> ${subject}</p>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
+        <p>
+          <b>Subject:</b> ${subject}
+        </p>
 
-        <p><b>Message:</b></p>
-        <p>${message}</p>
+        <p>
+          <b>Name:</b> ${name}
+        </p>
+
+        <p>
+          <b>Email:</b> ${email}
+        </p>
+
+        <p>
+          <b>Message:</b>
+        </p>
+
+        <p>
+          ${message}
+        </p>
       `,
     });
 
 
     console.log("Mail sent successfully");
 
-  } catch(error){
+  } catch (error) {
     console.log(error);
     throw error;
   }

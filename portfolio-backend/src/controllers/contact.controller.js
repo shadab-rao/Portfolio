@@ -1,29 +1,25 @@
 const contactModel = require("../models/contact.model");
 const pagination = require("../utils/pagination");
 const { successResponse } = require("../utils/response");
-const sendMail = require("../utils/sendMail");
+const sendMail  = require("../utils/sendMail");
 
 const createContact = async (req, res) => {
   try {
-    const { name, email, message, subject } = req.body;
+    const { name, email, message,subject} = req.body;
 
     const contact = await contactModel.create({
       name,
       email,
       message,
-      subject,
+      subject
     });
 
-    try {
-      await sendMail({
-        name,
-        email,
-        message,
-        subject,
-      });
-    } catch (mailError) {
-      console.log("Email Error:", mailError.message);
-    }
+    await sendMail({
+      name,
+      email,
+      message,
+      subject
+    });
 
     return successResponse(res, 201, "Message sent successfully", contact);
   } catch (error) {
