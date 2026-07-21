@@ -19,7 +19,7 @@ const createSkill = async (req, res) => {
 
     const skill = await skillModel.create({
       name,
-      icon: req.file.filename,
+      icon: req.file.path,
       category,
       order,
       proficiency,
@@ -68,7 +68,7 @@ const updateSkills = async (req, res) => {
   };
 
   if (req.file) {
-    updateData.icon = req.file.filename;
+    updateData.icon = req.file.path;
   }
 
   const skill = await skillModel.findByIdAndUpdate(req.params.id, updateData, {

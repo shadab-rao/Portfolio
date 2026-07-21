@@ -32,7 +32,7 @@ const createproject = async (req, res) => {
       title,
       description,
       technologies: technologies.split(",").map((item) => item.trim()),
-      image: req.file.filename,
+      image: req.file.path,
       githubLink,
       liveLink,
       link,
@@ -76,7 +76,7 @@ const updateProject = async (req, res) => {
 
     // Update image only if a new image is uploaded
     if (req.file) {
-      updateData.image = req.file.filename;
+      updateData.image = req.file.path;
     }
 
     const project = await projectSchema.findByIdAndUpdate(

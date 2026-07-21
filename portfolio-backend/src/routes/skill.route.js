@@ -1,7 +1,6 @@
 const express = require("express");
 const skillController = require("../controllers/skill.controller");
-const upload = require("../middlewares/multer");
-
+const upload = require("../middlewares/upload");
 
 const router = express.Router();
 

@@ -25,7 +25,7 @@ const createProfile = async (req, res) => {
   const user = await userModel.create({
     name,
     designation,
-    image: req.file.filename,
+    image: req.file.path,
     github,
     linkedin,
     email,
@@ -72,7 +72,7 @@ const updateProfile = async (req, res) => {
     {
       name,
       designation,
-      image: req.file.filename,
+      image: req.file.path,
       github,
       linkedin,
       email,
