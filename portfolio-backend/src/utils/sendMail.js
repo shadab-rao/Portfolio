@@ -5,12 +5,12 @@ const sendMail = async ({ name, email, message, subject }) => {
 
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false,
 
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
       },
 
       connectionTimeout: 10000,
@@ -19,8 +19,8 @@ const sendMail = async ({ name, email, message, subject }) => {
 
 
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      from: process.env.EMAIL,
+      to: process.env.EMAIL,
 
       subject: `Portfolio Contact: ${subject}`,
 
