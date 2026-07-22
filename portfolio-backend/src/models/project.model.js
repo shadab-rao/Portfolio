@@ -18,6 +18,11 @@ const projectSchema = new mongoose.Schema({
       trim: true,
     },
   ],
+  category: {
+    type: String,
+    enum: ["Frontend", "Backend", "Full Stack"],
+    required: true,
+  },
   githubLink: {
     type: String,
     trim: true,

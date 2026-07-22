@@ -2,13 +2,21 @@ const experienceModel = require("../models/experience.model");
 const pagination = require("../utils/pagination");
 const { successResponse } = require("../utils/response");
 const createExperience = async (req, res) => {
-  const { company, role, location, startDate, endDate, description } = req.body;
+  const {
+    company,
+    role,
+    location,
+    startDate,
+    endDate,
+    isPresent,
+    description,
+  } = req.body;
   if (
     !company ||
     !role ||
     !location ||
     !startDate ||
-    !endDate ||
+    (!isPresent && !endDate) ||
     !description
   ) {
     return res.status(400).json({ message: "All fields are required" });
@@ -18,7 +26,8 @@ const createExperience = async (req, res) => {
     role,
     location,
     startDate,
-    endDate,
+    endDate: isPresent ? null : endDate,
+    isPresent,
     description,
   });
   return successResponse(
@@ -69,10 +78,25 @@ const experienceById = async (req, res) => {
 };
 
 const updateExperience = async (req, res) => {
-  const { company, role, location, startDate, endDate, description } = req.body;
+  const {
+    company,
+    role,
+    location,
+    startDate,
+    endDate,
+    isPresent,
+    description,
+  } = req.body;
   const experience = await experienceModel.findOneAndUpdate(
     { _id: req.params.id },
-    { company, role, location, startDate, endDate, description },
+    {
+      company,
+      role,
+      location,
+      startDate,
+      endDate: isPresent ? null : endDate,
+      description,
+    },
     { new: true },
   );
   return successResponse(

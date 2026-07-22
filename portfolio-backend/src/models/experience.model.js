@@ -23,6 +23,10 @@ const experienceSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  isPresent: {
+    type: Boolean,
+    default: false,
+  },
   description: {
     type: String,
     required: true,

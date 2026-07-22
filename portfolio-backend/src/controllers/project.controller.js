@@ -10,11 +10,12 @@ const createproject = async (req, res) => {
       technologies,
       githubLink,
       liveLink,
+      category,
       link,
       order,
     } = req.body;
 
-    if (!title || !description || !technologies) {
+    if (!title || !description || !technologies || !category) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -35,6 +36,7 @@ const createproject = async (req, res) => {
       image: req.file.path,
       githubLink,
       liveLink,
+      category,
       link,
       order,
     });
@@ -58,6 +60,7 @@ const updateProject = async (req, res) => {
       technologies,
       githubLink,
       liveLink,
+      category,
       link,
       order,
     } = req.body;
@@ -70,6 +73,7 @@ const updateProject = async (req, res) => {
         : [],
       githubLink,
       liveLink,
+      category,
       link,
       order,
     };
