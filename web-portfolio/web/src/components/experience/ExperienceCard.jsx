@@ -39,7 +39,7 @@ const ExperienceCard = ({ experience, index }) => {
             <IoCalendarOutline />
             {moment(experience.startDate).format("MMM YYYY")} -{" "}
             {experience.isPresent
-              ? "Present"
+              ? "Present"   
               : moment(experience.endDate).format("MMM YYYY")}
           </div>
 
