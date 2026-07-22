@@ -12,29 +12,29 @@ const Skills = () => {
   }, []);
 
   const getSkills = async () => {
-    let search = ""
+    let search = "";
     try {
       const res = await allSkills(search, 1, 10);
 
-      setSkills(res.data.data?.skills);
+      const skillsData = res.data.data?.skills || [];
+
+      const sortedSkills = skillsData.sort((a, b) => a.order - b.order);
+
+      setSkills(sortedSkills);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <section
-      id="skills"
-      className="bg-[#020617] py-24 px-6"
-    >
+    <section id="skills" className="bg-[#020617] py-24 px-6">
       <div className="max-w-7xl mx-auto">
-
         {/* Heading */}
 
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: .6 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="text-center mb-20"
         >
@@ -51,22 +51,17 @@ const Skills = () => {
 
         {/* Grid */}
 
-        <div className="grid
+        <div
+          className="grid
             sm:grid-cols-2
             md:grid-cols-3
             lg:grid-cols-4
-            gap-8">
-
+            gap-8"
+        >
           {skills.map((skill, index) => (
-            <SkillCard
-              key={skill._id}
-              skill={skill}
-              index={index}
-            />
+            <SkillCard key={skill._id} skill={skill} index={index} />
           ))}
-
         </div>
-
       </div>
     </section>
   );
