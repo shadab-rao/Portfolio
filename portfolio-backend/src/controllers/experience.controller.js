@@ -95,6 +95,7 @@ const updateExperience = async (req, res) => {
       location,
       startDate,
       endDate: isPresent ? null : endDate,
+      isPresent,
       description,
     },
     { new: true },
