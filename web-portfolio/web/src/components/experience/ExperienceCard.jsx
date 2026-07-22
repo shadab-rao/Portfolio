@@ -20,7 +20,6 @@ const ExperienceCard = ({ experience, index }) => {
 
       {/* Card */}
       <div className="w-full lg:w-[45%] bg-slate-900 border border-slate-700 rounded-2xl p-7 hover:border-cyan-400 transition duration-300 hover:-translate-y-2">
-
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-cyan-500 p-3 rounded-xl text-white">
             <MdWork size={24} />
@@ -31,30 +30,26 @@ const ExperienceCard = ({ experience, index }) => {
               {experience.role}
             </h3>
 
-            <p className="text-cyan-400">
-              {experience.company}
-            </p>
+            <p className="text-cyan-400">{experience.company}</p>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-5 text-gray-400 mb-5">
-
           <div className="flex items-center gap-2">
             <IoCalendarOutline />
-            {moment(experience.startDate).format("MMM YYYY")} - {moment(experience.endDate).format("MMM YYYY") || "Present"}
+            {moment(experience.startDate).format("MMM YYYY")} -{" "}
+            {experience.isPresent
+              ? "Present"
+              : moment(experience.endDate).format("MMM YYYY")}
           </div>
 
           <div className="flex items-center gap-2">
             <FaLocationDot />
             {experience.location}
           </div>
-
         </div>
 
-        <p className="text-gray-300 leading-7">
-          {experience.description}
-        </p>
-
+        <p className="text-gray-300 leading-7">{experience.description}</p>
       </div>
     </motion.div>
   );
